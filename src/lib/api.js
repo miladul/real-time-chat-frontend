@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-    baseURL: 'http://localhost:8000/api', // your Laravel API URL
+    baseURL: import.meta.env.VITE_BACKEND_BASE_URL+'/api', // your Laravel API URL
 });
 
 api.interceptors.request.use(config => {

@@ -13,18 +13,46 @@ export const useAuthStore = defineStore('auth', {
 
     actions: {
         async login(email, password) {
-            const { data } = await api.post('/login', { email, password });
-            this.token = data.token;
-            localStorage.setItem('token', data.token);
-            await this.getUser();
+            try {
+                const { data } = await api.post('/login', { email, password });
+
+                if (data.status === 'success') {
+                    this.token = data.data.token;
+                    localStorage.setItem('token', data.data.token);
+                    this.user = data.data.user;
+                } else {
+                    throw new Error(data.message);
+                }
+            } catch (error) {
+                console.error(error);
+                throw error.response?.data || { message: error.message };
+            }
         },
+
         async register(name, email, password) {
-            await api.post('/register', { name, email, password });
+            try {
+                const { data } = await api.post('/register', { name, email, password });
+
+                if (data.status !== 'success') {
+                    throw new Error(data.message);
+                }
+            } catch (error) {
+                console.error(error);
+                throw error.response?.data || { message: error.message };
+            }
         },
+
         async getUser() {
-            const { data } = await api.get('/me');
-            this.user = data;
+            try {
+                const { data } = await api.get('/me');
+                if (data.status === 'success') {
+                    this.user = data.data;
+                }
+            } catch (error) {
+                console.error(error);
+            }
         },
+
         logout() {
             this.user = null;
             this.token = null;

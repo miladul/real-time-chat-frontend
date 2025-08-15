@@ -65,7 +65,7 @@ let typingTimeout = null;
 async function loadMessages() {
   if (!props.selectedUser?.id) return;
   const { data } = await api.get(`/messages/${props.selectedUser.id}`);
-  messages.value = data;
+  messages.value = data.data;
   scrollToBottom();
 }
 
@@ -76,7 +76,7 @@ async function sendMessage() {
       receiver_id: props.selectedUser.id,
       body: newMessage.value,
     });
-    messages.value.push(data);
+    messages.value.push(data.data);
     newMessage.value = '';
     scrollToBottom();
   } catch (e) {

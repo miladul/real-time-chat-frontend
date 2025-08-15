@@ -5,7 +5,7 @@
       <li
           v-for="u in users"
           :key="u.id"
-          @click="$emit('selectUser', u)"
+          @click="selectUser(u)"
           class="flex justify-between items-center cursor-pointer hover:bg-gray-200 px-3 py-2"
       >
         <span>{{ u.name }}</span>
@@ -30,14 +30,15 @@ import { echo } from '../lib/echo';
 const users = ref([]);
 const store = useAuthStore();
 const activeUserId = ref(null); // will be set by parent when a user is selected
+const emit = defineEmits(['selectUser']);
 
 // Load users with initial unread counts
 async function loadUsers() {
   const { data } = await api.get('/users');
   if (store.user) {
-    users.value = data.filter(u => u.id !== store.user.id);
+    users.value = data.data.filter(u => u.id !== store.user.id);
   } else {
-    users.value = data;
+    users.value = data.data;
   }
 }
 
@@ -46,6 +47,9 @@ function setupRealtime() {
   echo.private(`chat.${store.user.id}`)
       .listen('MessageSent', (e) => {
         // If message is from a user we're NOT currently chatting with
+
+        console.log(e);
+        console.log('activeUserId.value', activeUserId.value);
         if (e.sender_id !== activeUserId.value) {
           const user = users.value.find(u => u.id === e.sender_id);
           if (user) {
@@ -62,6 +66,13 @@ function markAsRead(userId) {
     user.unread_count = 0;
   }
   activeUserId.value = userId;
+}
+
+function selectUser(u) {
+  activeUserId.value = u.id;
+  markAsRead(u.id);
+  // Tell the parent too
+  emit('selectUser', u);
 }
 
 onMounted(() => {

@@ -16,19 +16,25 @@
             type="password"
             class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-300"
         />
+
         <button
             type="submit"
-            class="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600 transition"
+            class="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600 transition cursor-pointer"
         >
           Login
         </button>
+
+        <!-- Error message -->
+        <p v-if="errorMessage" class="text-red-500 text-sm mt-2 text-center">
+          {{ errorMessage }}
+        </p>
       </form>
 
       <p class="text-center mt-4 text-gray-600">
         Don't have an account?
         <button
             @click="$emit('switch', 'register')"
-            class="text-blue-500 hover:underline"
+            class="text-blue-500 hover:underline cursor-pointer"
         >
           Register
         </button>
@@ -44,12 +50,14 @@ import { useAuthStore } from '../stores/auth';
 const store = useAuthStore();
 const email = ref('');
 const password = ref('');
+const errorMessage = ref('');
 
 async function handleLogin() {
+  errorMessage.value = ''; // reset error
   try {
     await store.login(email.value, password.value);
   } catch (err) {
-    alert('Login failed');
+    errorMessage.value = 'Invalid email or password';
   }
 }
 </script>

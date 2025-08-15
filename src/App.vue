@@ -4,7 +4,7 @@
     <Login v-if="!store.isLoggedIn && page === 'login'" @switch="page = $event" />
     <Register v-if="!store.isLoggedIn && page === 'register'" @switch="page = $event" />
     <ChatLayout v-if="store.isLoggedIn && store.user" />
-    <Footer/>
+<!--    <Footer/>-->
   </div>
 </template>
 

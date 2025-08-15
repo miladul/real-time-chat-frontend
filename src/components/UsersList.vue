@@ -76,19 +76,16 @@ function selectUser(u) {
   emit('selectUser', u);
 }
 
-onMounted(() => {
-  if (store.user) {
-    loadUsers();
-    setupRealtime();
-  }
-});
-
-watch(() => store.user, (newVal) => {
-  if (newVal) {
-    loadUsers();
-    setupRealtime();
-  }
-});
+watch(
+    () => store.user?.id,
+    (id) => {
+      if (id) {
+        loadUsers();
+        setupRealtime();
+      }
+    },
+    { immediate: true }
+);
 
 defineExpose({ markAsRead });
 </script>

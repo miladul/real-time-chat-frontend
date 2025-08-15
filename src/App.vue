@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="app" class="flex flex-col h-screen">
     <Header/>
     <Login v-if="!store.isLoggedIn && page === 'login'" @switch="page = $event" />
     <Register v-if="!store.isLoggedIn && page === 'register'" @switch="page = $event" />

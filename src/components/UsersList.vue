@@ -1,5 +1,5 @@
 <template>
-  <div class="border-r border-gray-300 h-screen overflow-y-auto w-64">
+  <div class="border-r border-gray-300 h-screen w-64">
     <h3 class="text-lg font-semibold p-3">Users</h3>
     <ul>
       <li
@@ -7,6 +7,7 @@
           :key="u.id"
           @click="selectUser(u)"
           class="flex justify-between items-center cursor-pointer hover:bg-gray-200 px-3 py-2"
+          :class="{ 'bg-gray-200': u.id === activeUserId }"
       >
         <span>{{ u.name }}</span>
         <span

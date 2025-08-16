@@ -1,5 +1,5 @@
 <template>
-  <div class="border-r border-gray-300 h-screen w-64">
+  <div class="border-r border-gray-300 w-64">
     <h3 class="text-lg font-semibold p-3">Users</h3>
     <ul>
       <li
@@ -23,7 +23,7 @@
 
 
 <script setup>
-import { ref, onMounted, watch } from 'vue';
+import { ref, watch } from 'vue';
 import api from '../lib/api';
 import { useAuthStore } from '../stores/auth';
 import { echo } from '../lib/echo';

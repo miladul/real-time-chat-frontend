@@ -14,7 +14,10 @@
           : 'self-start bg-blue-200 text-left'"
           class="px-3 py-2 m-1 rounded-md max-w-xs break-words"
       >
-        {{ m.body }}
+        <div>{{ m.body }}</div>
+        <div class="text-xs text-gray-500 mt-1">
+          {{ formatTime(m.created_at) }}
+        </div>
       </div>
     </div>
 
@@ -61,6 +64,11 @@ const newMessage = ref('');
 const messagesBox = ref(null);
 const typingFromThem = ref(false);
 let typingTimeout = null;
+
+function formatTime(dateString) {
+  const date = new Date(dateString);
+  return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+}
 
 async function loadMessages() {
   if (!props.selectedUser?.id) return;

@@ -5,26 +5,36 @@
     </h3>
 
     <!-- Messages -->
-    <div class="flex flex-col flex-1 overflow-y-auto p-2" ref="messagesBox">
+    <div
+        class="flex flex-col flex-1 overflow-y-auto p-4 space-y-2"
+        ref="messagesBox"
+    >
       <div
           v-for="m in messages"
           :key="m.id"
           :class="m.sender_id === store.user.id
-          ? 'self-end bg-green-100 text-right'
-          : 'self-start bg-blue-200 text-left'"
-          class="px-3 py-2 m-1 rounded-md max-w-xs break-words"
+          ? 'items-end'
+          : 'items-start'"
+          class="flex flex-col"
       >
-        <div>{{ m.body }}</div>
-        <div class="text-xs text-gray-500 mt-1">
-          {{ formatTime(m.created_at) }}
+        <div
+            :class="m.sender_id === store.user.id
+            ? 'bg-blue-500 text-white rounded-tl-lg rounded-tr-lg rounded-bl-lg'
+            : 'bg-white text-gray-800 rounded-tl-lg rounded-tr-lg rounded-br-lg'"
+            class="px-4 py-2 max-w-xs shadow-md"
+        >
+          {{ m.body }}
         </div>
+        <span class="text-xs text-gray-500 mt-1">
+          {{ formatTime(m.created_at) }}
+        </span>
       </div>
     </div>
 
     <!-- Typing indicator -->
     <div
         v-if="typingFromThem"
-        class="px-3 py-1 italic text-gray-500"
+        class="px-4 py-2 italic text-gray-500 text-sm"
     >
       {{ selectedUser.name }} is typing...
     </div>
@@ -32,17 +42,17 @@
     <!-- Input area -->
     <form
         @submit.prevent="sendMessage"
-        class="flex border-t border-gray-300"
+        class="flex items-center border-t border-gray-300 bg-white p-3 space-x-2"
     >
       <input
           v-model="newMessage"
           placeholder="Type a message..."
           @input="typing"
-          class="flex-1 px-3 py-2 outline-none"
+          class="flex-1 px-4 py-2 border border-gray-300 rounded-full outline-none focus:ring focus:ring-blue-300"
       />
       <button
           type="submit"
-          class="px-4 py-2 bg-blue-500 text-white hover:bg-blue-600"
+          class="px-4 py-2 bg-blue-500 text-white rounded-full hover:bg-blue-600 cursor-pointer"
       >
         Send
       </button>

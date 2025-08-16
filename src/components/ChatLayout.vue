@@ -1,5 +1,5 @@
 <template>
-  <div class="flex h-screen">
+  <div class="flex">
     <UsersList @selectUser="setSelectedUser" />
     <div class="flex flex-col flex-1">
       <OneToOneChat v-if="selectedUser" :selectedUser="selectedUser" />

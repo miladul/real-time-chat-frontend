@@ -48,9 +48,6 @@ function setupRealtime() {
   echo.private(`chat.${store.user.id}`)
       .listen('MessageSent', (e) => {
         // If message is from a user we're NOT currently chatting with
-
-        console.log(e);
-        console.log('activeUserId.value', activeUserId.value);
         if (e.sender_id !== activeUserId.value) {
           const user = users.value.find(u => u.id === e.sender_id);
           if (user) {
